@@ -89,11 +89,7 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 withKubeConfig(
-                    clusterName: 'quantam-cluster',
-                    credentialsId: 'kube',
-                    namespace: 'quantam',
-                    serverUrl: 'https://339EBFA756C1467BF3271A0E36722D0E.gr7.ap-northeast-1.eks.amazonaws.com',
-                    restrictKubeConfigAccess: false
+                    caCertificate: '', clusterName: 'quantam-cluster', contextName: '', credentialsId: 'kube', namespace: 'quantam', restrictKubeConfigAccess: false, serverUrl: 'https://E0AD508BB4898FA1D4C01E7E44CEAE2D.gr7.ap-south-1.eks.amazonaws.com'
                 ) {
                     sh '''
                         echo "Deploying to Kubernetes..."
