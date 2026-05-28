@@ -80,7 +80,7 @@ pipeline {
                 sh '''
                     echo "Updating kubeconfig..."
                     aws eks update-kubeconfig \
-                        --region ap-northeast-1 \
+                        --region ap-south-1 \
                         --name quantam-cluster
                 '''
             }
