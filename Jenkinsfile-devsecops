@@ -10,7 +10,7 @@ pipeline {
     environment {
 
         /* ---------------- Docker ---------------- */
-        IMAGE_NAME = "manojkrishnappa/devops-pipeline:${GIT_COMMIT}"
+        IMAGE_NAME = "meghesh117/devops-pipeline:${GIT_COMMIT}"
 
         /* ---------------- AWS / K8s ---------------- */
         AWS_REGION   = "ap-northeast-1"
