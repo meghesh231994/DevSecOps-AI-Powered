@@ -1,15 +1,15 @@
-FROM eclipse-temurin:17-jdk
-
-RUN useradd -m appuser
+FROM eclipse-temurin:17-jre
 
 WORKDIR /app
 
-COPY target/gameapp-1.0.0.jar app.jar
+RUN addgroup --system appgroup && adduser --system --ingroup appgroup appuser
 
-RUN chown -R appuser:appuser app.jar
+COPY target/*.jar app.jar
+
+RUN mkdir -p /app/data && chown -R appuser:appgroup /app
 
 USER appuser
 
 EXPOSE 8080
 
-CMD ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
