@@ -18,10 +18,10 @@ pipeline {
         NAMESPACE    = "quantam"
 
         /* ---------------- AI Configuration ---------------- */
-        OLLAMA_HOST  = "http://127.0.0.1:11434"
-        OLLAMA_MODEL = "mistral"
-
-        AI_FAIL_ON_CRITICAL = "false"
+        // OLLAMA_HOST  = "http://127.0.0.1:11434"
+        // OLLAMA_MODEL = "mistral"
+        // 
+        // AI_FAIL_ON_CRITICAL = "false"
     }
 
     stages {
@@ -54,6 +54,7 @@ pipeline {
        AI LAYER 1 — Code Review
     ===================================================== */
 
+        /*
         stage('Ensure Ollama Model') {
             steps {
                 catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
@@ -86,6 +87,7 @@ pipeline {
                 }
             }
         }
+        */
 
     /* =====================================================
        TEST + COVERAGE
@@ -185,6 +187,7 @@ pipeline {
        AI LAYER 2 — Security Analysis
     ===================================================== */
 
+        /*
         stage('AI Security Analysis') {
             steps {
                 catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
@@ -202,6 +205,7 @@ pipeline {
                 }
             }
         }
+        */
 
     /* =====================================================
        DOCKER PUSH
@@ -259,6 +263,7 @@ pipeline {
        AI LAYER 3 — Release Notes
     ===================================================== */
 
+        /*
         stage('AI Release Notes') {
             steps {
                 catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
@@ -276,6 +281,7 @@ pipeline {
                 }
             }
         }
+        */
 
     /* =====================================================
        DEPLOYMENT
@@ -293,7 +299,7 @@ pipeline {
                         sed -i "s|replace|${IMAGE_NAME}|g" deployment.yaml
 
                         echo "Deploying..."
-                        kubectl apply -f deployment.yaml -n ${NAMESPACE}
+                        kubectl apply -f deployment.yaml -n quantam
                     '''
                 }
             }
