@@ -292,20 +292,28 @@ pipeline {
     ===================================================== */
 
         stage('Deploy to Kubernetes') {
-            steps {
-                withKubeConfig(
-                    caCertificate: '', clusterName: 'quantam-cluster', contextName: '', credentialsId: 'kube', namespace: 'quantam', restrictKubeConfigAccess: false, serverUrl: 'https://E0AD508BB4898FA1D4C01E7E44CEAE2D.gr7.ap-south-1.eks.amazonaws.com'
-                ){
-                    sh '''
-                        echo "Updating image..."
-                        sed -i "s|replace|${IMAGE_NAME}|g" deployment.yaml
+    steps {
+        sh '''
+            set -e
 
-                        echo "Deploying..."
-                        kubectl apply -f deployment.yaml -n quantam
-                    '''
-                }
-            }
-        }
+            echo "Configuring EKS kubeconfig..."
+            aws eks update-kubeconfig \
+              --region ${AWS_REGION} \
+              --name ${CLUSTER_NAME}
+
+            echo "Verifying cluster access..."
+            kubectl config current-context
+            kubectl get nodes
+            kubectl get ns ${NAMESPACE}
+
+            echo "Updating image..."
+            sed -i "s|replace|${IMAGE_NAME}|g" deployment.yaml
+
+            echo "Deploying..."
+            kubectl apply -f deployment.yaml -n ${NAMESPACE}
+        '''
+    }
+}
 
     }
 
